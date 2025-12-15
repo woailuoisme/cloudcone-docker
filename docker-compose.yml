@@ -44,154 +44,124 @@ services:
       - frontend
       - backend
 
-
-
-
-
-
-
-
-  php-fpm:
-    build:
-      context: ./php-fpm
-      dockerfile: Dockerfile
-      args:
-        - CHANGE_SOURCE=${CHANGE_SOURCE}
-        - WWWUSER=${WWWUSER:-33}
-        - WWWGROUP=${WWWGROUP:-33}
-    container_name: php-fpm
-    restart: always
-    volumes:
-      - ${APP_CODE_PATH}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-      - ${CONFIG_PATH}ssh:/home/www-data/.ssh:ro
-    environment:
-      - APP_PATH=${APP_PATH}
-      - APP_ENV=fpm
-      - APP_DEBUG=true
-      - ENABLE_SUPERVISOR=false
-      - ENABLE_SCHEDULE=true
-      - ENABLE_HORIZON=true
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      - backend
-      - frontend
-    depends_on:
-      php-schedule:
-        condition: service_healthy
-      php-horizon:
-        condition: service_healthy
-      php-reverb:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
-      meilisearch:
-        condition: service_healthy
-      minio:
-        condition: service_healthy
-
-
-
-
-  php-roadrunner:
-    build:
-      context: php-roadrunner
-    container_name: php-roadrunner
-    restart: always
-    environment:
-      - APP_PATH=${APP_PATH}
-      - APP_ENV=octane
-      - APP_DEBUG=true
-      - ENABLE_SUPERVISOR=false
-      - WATCH=true
-    ports:
-      - "8201:8001"
-    volumes:
-      - ${APP_CODE_PATH}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-      - ${CONFIG_PATH}ssh:/home/www-data/.ssh:ro
-    networks:
-      - backend
-      - frontend
-
-  php-horizon:
-    build:
-      context: php-horizon
-    container_name: php-horizon
-    restart: always
-    environment:
-      - APP_PATH=${APP_PATH}
-      - APP_ENV=${APP_ENV}
-      - ENABLE_SUPERVISOR=false
-    volumes:
-      - ${APP_CODE_PATH}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-    networks:
-      - backend
-    depends_on:
-      redis:
-        condition: service_healthy
-
-  php-schedule:
-    build:
-      context: php-schedule
-    container_name: php-schedule
-    restart: always
-    environment:
-      - APP_PATH=${APP_PATH}
-      - APP_ENV=${APP_ENV}
-      - ENABLE_SUPERVISOR=false
-    volumes:
-      - ${APP_CODE_PATH}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-    networks:
-      - backend
-    depends_on:
-      php-horizon:
-        condition: service_healthy
-
-  php-reverb:
-    build:
-      context: php-reverb
-    container_name: php-reverb
-    restart: always
-    environment:
-      - APP_PATH=${APP_PATH}
-      - APP_ENV=${APP_ENV}
-      - ENABLE_SUPERVISOR=false
-    volumes:
-      - ${APP_CODE_PATH}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-    networks:
-      - backend
-    depends_on:
-      php-horizon:
-        condition: service_healthy
-
-#  postgres:
+#  php-fpm:
 #    build:
-#      context: ./postgres
+#      context: ./php-fpm
+#      dockerfile: Dockerfile
 #      args:
-#        - POSTGRES_VERSION=${POSTGRES_VERSION}
-#    container_name: postgres
+#        - CHANGE_SOURCE=${CHANGE_SOURCE}
+#        - WWWUSER=${WWWUSER:-33}
+#        - WWWGROUP=${WWWGROUP:-33}
+#    container_name: php-fpm
 #    restart: always
 #    volumes:
-#      - ${DATA_PATH}postgres:/var/lib/postgresql/data
-#      - ${CONFIG_PATH}postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-#    ports:
-#      - "${POSTGRES_PORT}:5432"
+#      - ${APP_CODE_PATH}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+#      - ${CONFIG_PATH}ssh:/home/www-data/.ssh:ro
 #    environment:
-#      - POSTGRES_USER=${POSTGRES_USER}
-#      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-#      - POSTGRES_DB=${POSTGRES_DB}
+#      - APP_PATH=${APP_PATH}
+#      - APP_ENV=fpm
+#      - APP_DEBUG=true
+#      - ENABLE_SUPERVISOR=false
+#      - ENABLE_SCHEDULE=true
+#      - ENABLE_HORIZON=true
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
 #    networks:
 #      - backend
 #      - frontend
+#    depends_on:
+#      php-schedule:
+#        condition: service_healthy
+#      php-horizon:
+#        condition: service_healthy
+#      php-reverb:
+#        condition: service_healthy
+#      redis:
+#        condition: service_healthy
+#      postgres:
+#        condition: service_healthy
+#      meilisearch:
+#        condition: service_healthy
+#      minio:
+#        condition: service_healthy
+#
+#  php-roadrunner:
+#    build:
+#      context: php-roadrunner
+#    container_name: php-roadrunner
+#    restart: always
+#    environment:
+#      - APP_PATH=${APP_PATH}
+#      - APP_ENV=octane
+#      - APP_DEBUG=true
+#      - ENABLE_SUPERVISOR=false
+#      - WATCH=true
+#    ports:
+#      - "8201:8001"
+#    volumes:
+#      - ${APP_CODE_PATH}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+#      - ${CONFIG_PATH}ssh:/home/www-data/.ssh:ro
+#    networks:
+#      - backend
+#      - frontend
+#
+#  php-horizon:
+#    build:
+#      context: php-horizon
+#    container_name: php-horizon
+#    restart: always
+#    environment:
+#      - APP_PATH=${APP_PATH}
+#      - APP_ENV=${APP_ENV}
+#      - ENABLE_SUPERVISOR=false
+#    volumes:
+#      - ${APP_CODE_PATH}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+#    networks:
+#      - backend
+#    depends_on:
+#      redis:
+#        condition: service_healthy
+#
+#  php-schedule:
+#    build:
+#      context: php-schedule
+#    container_name: php-schedule
+#    restart: always
+#    environment:
+#      - APP_PATH=${APP_PATH}
+#      - APP_ENV=${APP_ENV}
+#      - ENABLE_SUPERVISOR=false
+#    volumes:
+#      - ${APP_CODE_PATH}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+#    networks:
+#      - backend
+#    depends_on:
+#      php-horizon:
+#        condition: service_healthy
+#
+#  php-reverb:
+#    build:
+#      context: php-reverb
+#    container_name: php-reverb
+#    restart: always
+#    environment:
+#      - APP_PATH=${APP_PATH}
+#      - APP_ENV=${APP_ENV}
+#      - ENABLE_SUPERVISOR=false
+#    volumes:
+#      - ${APP_CODE_PATH}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+#    networks:
+#      - backend
+#    depends_on:
+#      php-horizon:
+#        condition: service_healthy
 
-  postgres18:
+  postgres:
     build:
       context: ./postgres-18
       args:
         - POSTGRES_VERSION=18.1-alpine3.23
-    container_name: postgres18
+    container_name: postgres
     restart: always
     volumes:
       - ${DATA_PATH}postgres-18:/var/lib/postgresql/data
@@ -205,8 +175,6 @@ services:
     networks:
       - backend
       - frontend
-
-
   redis:
     container_name: redis
     build:
@@ -229,7 +197,8 @@ services:
 
   meilisearch:
     container_name: meilisearch
-    image: getmeili/meilisearch:v1.29
+    build:
+      context: ./meilisearch
     restart: always
     environment:
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
@@ -260,7 +229,6 @@ services:
       - ${LOG_PATH}rabbitmq:/var/log/rabbitmq
     networks:
       - backend
-
   minio:
     build:
       context: ./minio
@@ -276,8 +244,6 @@ services:
       - "${MINIO_PORT}:9000"
     networks:
       - backend
-
-
   dozzle:
     container_name: dozzle
     image: amir20/dozzle:v8.14
@@ -301,9 +267,6 @@ services:
       - backend
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
-
-
-
   gotify:
     image: gotify/server:2.7
     container_name: gotify
@@ -352,7 +315,6 @@ services:
       - frontend
       - backend
 
-
   watchtower:
     container_name: watchtower
     image: containrrr/watchtower:1.7.1
@@ -363,12 +325,10 @@ services:
       - "8880:8080"
     environment:
       - TZ=Asia/Shanghai
-#      - DOCKER_HOST=tcp://socket-proxy:2375
       - WATCHTOWER_LABEL_ENABLE=true
       - WATCHTOWER_HTTP_API_METRICS=true
       - WATCHTOWER_HTTP_API_TOKEN=demo-token
       - WATCHTOWER_CLEANUP=true
-#      - WATCHTOWER_LOG_FORMAT=Pretty
       - WATCHTOWER_LOG_FORMAT=LogFmt
       - WATCHTOWER_NO_STARTUP_MESSAGE=true
     labels:
@@ -385,8 +345,6 @@ services:
       - frontend
       - backend
 
-
-
   uptime-kuma:
     image: louislam/uptime-kuma:2
     container_name: uptime-kuma
@@ -397,7 +355,84 @@ services:
       - "33001:3001"
     networks:
       - backend
-      -
+  memos:
+    image: neosmemo/memos:stable
+    container_name: memos
+    ports:
+      - "5230:5230"
+    volumes:
+      - ${DATA_PATH}memos:/var/opt/memos
+    networks:
+      - frontend
+      - backend
+
+  excalidraw:
+    container_name: excalidraw
+    image: excalidraw/excalidraw:latest
+    ports:
+      - "3030:80"
+    restart: on-failure
+    networks:
+      - frontend
+      - backend
+
+  3xui:
+    image: ghcr.io/mhsanaei/3x-ui:latest
+    container_name: 3xui
+    volumes:
+      - $PWD/3xui/db/:/etc/x-ui/
+      - $PWD/3xui/cert/:/root/cert/
+    environment:
+      - XRAY_VMESS_AEAD_FORCED=false
+      - XUI_ENABLE_FAIL2BAN=true
+    tty: true
+    restart: unless-stopped
+    networks:
+      - frontend
+      - backend
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=123456
+      - GENERIC_TIMEZONE=Asia/Shanghai
+    volumes:
+      - ${DATA_PATH}.n8n:/home/node/.n8n
+      - ${DATA_PATH}n8n-local-files:/files
+    networks:
+      - frontend
+      - backend
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  frp-server:
+    image: snowdreamtech/frps:alpine
+    container_name: frp-server
+    restart: unless-stopped
+    volumes:
+      - ${CONFIG_PATH:-./}frps/frps.toml:/etc/frp/frps.toml:ro
+    ports:
+      # FRP 控制端口：客户端连接端口
+      - "7000:7000"
+    # - "7500:7500"
+    networks:
+      - backend
+      - frontend
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "7000" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    environment:
+      - TZ=Asia/Shanghai
+
 networks:
   frontend:
     name: frontend

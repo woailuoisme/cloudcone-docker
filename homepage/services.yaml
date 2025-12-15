@@ -19,7 +19,7 @@
 
     - Gotify:
         icon: gotify
-        href: https://push.{{HOMEPAGE_VAR_SITE_ADDRESS}}
+        href: https://msg.{{HOMEPAGE_VAR_SITE_ADDRESS}}
         description: message push
         server: my-docker
         container: gotify
@@ -34,6 +34,46 @@
         server: my-docker
         container: homepage
 
+    - uptime-kuma:
+        icon: uptime-kuma
+        href: https://uptime.{{HOMEPAGE_VAR_SITE_ADDRESS}}
+        description: uptime-kuma
+        server: my-docker
+        container: uptime-kuma
+
+    - memos:
+        icon: memos
+        href: https://memos.{{HOMEPAGE_VAR_SITE_ADDRESS}}
+        description: memos
+        server: my-docker
+        container: memos
+
+    - excalidraw:
+        icon: excalidraw
+        href: https://draw.{{HOMEPAGE_VAR_SITE_ADDRESS}}
+        description: excalidraw
+        server: my-docker
+        container: excalidraw
+    - 3xui:
+        icon: 3xui
+        href: https://xui.{{HOMEPAGE_VAR_SITE_ADDRESS}}
+        description: 3xui
+        server: my-docker
+        container: 3xui
+
+    - n8n:
+        icon: n8n
+        href: https://n8n.{{HOMEPAGE_VAR_SITE_ADDRESS}}
+        description: n8n
+        server: my-docker
+        container: n8n
+
+    - frp-server:
+        icon: frp
+        href: https://frp.{{HOMEPAGE_VAR_SITE_ADDRESS}}
+        description: frp-server
+        server: my-docker
+        container: frp-server
     - watchtower:
         icon: watchtower
         description: Docker 容器日志查看器

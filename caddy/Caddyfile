@@ -9,9 +9,9 @@ import templates/* {
 }
 
 #import fpm-app fpm.{$SITE_ADDRESS} /var/www/lunchbox
-import fpm-app-auth rest.{$SITE_ADDRESS} /var/www/lunchbox
-import proxy-octane-app-auth dev.{$SITE_ADDRESS} php-franken:8001
-import proxy-octane-app-auth api.{$SITE_ADDRESS} php-roadrunner:8001
+#import fpm-app-auth rest.{$SITE_ADDRESS} /var/www/lunchbox
+#import proxy-octane-app-auth dev.{$SITE_ADDRESS} php-franken:8001
+#import proxy-octane-app-auth api.{$SITE_ADDRESS} php-roadrunner:8001
 
 #import proxy-app auth.{$SITE_ADDRESS} authelia:9091
 import proxy-app ws.{$SITE_ADDRESS} php-reverb:8080
@@ -19,6 +19,12 @@ import proxy-app mo.{$SITE_ADDRESS} minio:9001
 import proxy-app mos.{$SITE_ADDRESS} minio:9000
 import proxy-app mq.{$SITE_ADDRESS} rabbitmq:15672
 import proxy-app msg.{$SITE_ADDRESS} gotify:80
+import proxy-app uptime.{$SITE_ADDRESS} uptime-kuma:3001
+import proxy-app draw.{$SITE_ADDRESS} excalidraw:80
+import proxy-app memos.{$SITE_ADDRESS} memos:5230
+import proxy-app xui.{$SITE_ADDRESS} 3xui:54321
+import proxy-app frp.{$SITE_ADDRESS} frp-server:7500
+import proxy-app n8n.{$SITE_ADDRESS} n8n:5678
 
 import proxy-app-auth home.{$SITE_ADDRESS} homepage:3000
 import proxy-app-auth search.{$SITE_ADDRESS} meilisearch:7700
@@ -26,7 +32,6 @@ import proxy-app-auth dozzle.{$SITE_ADDRESS} dozzle:8080
 
 # import proxy-app ssh.{$SITE_ADDRESS}  ssh:8182
 # import proxy-app app.{$SITE_ADDRESS}  chatNext:3000
-
 
 :8888 {
 	respond /health 200 {
