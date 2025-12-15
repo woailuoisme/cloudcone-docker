@@ -198,7 +198,7 @@
     - PostgresSQL:
         icon: postgres
         href: "#"
-        description: 关系型数据库 (v17.6)
+        description: 关系型数据库
         server: my-docker
         container: postgres
 
