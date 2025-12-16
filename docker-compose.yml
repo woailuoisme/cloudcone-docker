@@ -402,7 +402,7 @@ services:
       - N8N_RUNNERS_ENABLED=true
       - TZ=Asia/Shanghai
     volumes:
-      - ${DATA_PATH}n8n:/home/node/.n8n
+#      - ${DATA_PATH}n8n:/home/node/.n8n
       - ${DATA_PATH}n8n-local-files:/files
     networks:
       - frontend
