@@ -24,6 +24,7 @@ import proxy-app uptime.{$SITE_ADDRESS} uptime-kuma:3001
 import proxy-app draw.{$SITE_ADDRESS} excalidraw:80
 import proxy-app memos.{$SITE_ADDRESS} memos:5230
 import proxy-app xui.{$SITE_ADDRESS} 3xui:2053
+import proxy-app sub.{$SITE_ADDRESS} 3xui:2096
 import proxy-app frp.{$SITE_ADDRESS} frp-server:7500
 import proxy-app n8n.{$SITE_ADDRESS} n8n:5678
 

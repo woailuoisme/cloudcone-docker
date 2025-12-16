@@ -303,8 +303,8 @@ services:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: "home.${SITE_ADDRESS}"
 #      HOMEPAGE_ALLOWED_HOSTS: "*"
+      HOMEPAGE_ALLOWED_HOSTS: "home.${SITE_ADDRESS}"
       HOMEPAGE_VAR_SITE_ADDRESS: ${SITE_ADDRESS}
       HOMEPAGE_VAR_DOMAIN: ${SITE_ADDRESS}
     ports:
