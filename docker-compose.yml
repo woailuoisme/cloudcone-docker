@@ -461,35 +461,35 @@ services:
     networks:
       - frontend
 
-  ollama:
-    image: ollama/ollama
-    container_name: ollama
-    volumes:
-      - ${DATA_PATH}ollama:/root/.ollama
-    ports:
-      - "11434:11434"
-    networks:
-      - backend
-      - frontend
+#  ollama:
+#    image: ollama/ollama
+#    container_name: ollama
+#    volumes:
+#      - ${DATA_PATH}ollama:/root/.ollama
+#    ports:
+#      - "11434:11434"
+#    networks:
+#      - backend
+#      - frontend
 
-  open-webui:
-    image: ghcr.io/open-webui/open-webui:main
-    container_name: open-webui
-    restart: always
-    ports:
-      - "3300:8080"
-    environment:
-      - OLLAMA_BASE_URL=http://ollama:11434
-      - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
-    volumes:
-      - ${DATA_PATH}open-webui:/app/backend/data
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    depends_on:
-      - ollama
-    networks:
-      - backend
-      - frontend
+#  open-webui:
+#    image: ghcr.io/open-webui/open-webui:main
+#    container_name: open-webui
+#    restart: always
+#    ports:
+#      - "3300:8080"
+#    environment:
+#      - OLLAMA_BASE_URL=http://ollama:11434
+#      - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
+#    volumes:
+#      - ${DATA_PATH}open-webui:/app/backend/data
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    depends_on:
+#      - ollama
+#    networks:
+#      - backend
+#      - frontend
 
   hbbr:
     container_name: hbbr
