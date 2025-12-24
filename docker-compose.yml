@@ -158,14 +158,14 @@ services:
 
   postgres:
     build:
-      context: ./postgres-18
+      context: postgres
       args:
-        - POSTGRES_VERSION=18.1-alpine3.23
+        - POSTGRES_VERSION=${POSTGRES_VERSION}
     container_name: postgres
     restart: always
     volumes:
-      - ${DATA_PATH}postgres-18:/var/lib/postgresql/data
-      - ${CONFIG_PATH}postgres-18/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ${DATA_PATH}postgres:/var/lib/postgresql/data
+      - ${CONFIG_PATH}postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "25432:5432"
     environment:
@@ -380,8 +380,8 @@ services:
     image: ghcr.io/mhsanaei/3x-ui:latest
     container_name: 3xui
     volumes:
-      - $PWD/3xui/db/:/etc/x-ui/
-      - $PWD/3xui/cert/:/root/cert/
+      - ${DATA_PATH}/3xui/db/:/etc/x-ui/
+      - ${DATA_PATH}/3xui/cert/:/root/cert/
     environment:
       - XRAY_VMESS_AEAD_FORCED=false
       - XUI_ENABLE_FAIL2BAN=true
@@ -429,6 +429,80 @@ services:
       start_period: 10s
     environment:
       - TZ=Asia/Shanghai
+
+  vert:
+    container_name: vert
+    image: ghcr.io/vert-sh/vert:latest
+    restart: unless-stopped
+    ports:
+      - "3100:80"
+    networks:
+      - frontend
+
+  stirling-pdf:
+    container_name: stirling-pdf
+    image: stirlingtools/stirling-pdf:2.1.5
+    ports:
+      - "8081:8080"
+    networks:
+      - backend
+      - frontend
+
+  kutt:
+    image: kutt/kutt
+    container_name: kutt
+    ports:
+      - "3331:3000"
+    volumes:
+      - ${DATA_PATH}kutt:/var/lib/kutt
+      - ${CONFIG_PATH}kutt:/kutt/custom
+    environment:
+      DB_FILENAME: "/var/lib/kutt/data.sqlite"
+    networks:
+      - frontend
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    volumes:
+      - ${DATA_PATH}ollama:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - backend
+      - frontend
+
+  hbbr:
+    container_name: hbbr
+    image: rustdesk/rustdesk-server:latest
+    command: hbbr
+    volumes:
+      - ${DATA_PATH}rustdesk:/root
+    ports:
+      - "21116:21116"
+      - "21116:21116/udp"
+      - "21118:21118"
+    restart: unless-stopped
+    networks:
+      - backend
+      - frontend
+
+  hbbs:
+    container_name: hbbs
+    image: rustdesk/rustdesk-server:latest
+    command: hbbs -r hbbr:21116
+    volumes:
+      - ${DATA_PATH}rustdesk:/root
+    ports:
+      - "21115:21115"
+      - "21117:21117"
+      - "21119:21119"
+    depends_on:
+      - hbbr
+    restart: unless-stopped
+    networks:
+      - backend
+      - frontend
 
 networks:
   frontend:

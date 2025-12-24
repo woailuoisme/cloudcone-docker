@@ -74,6 +74,7 @@
         description: frp-server
         server: my-docker
         container: frp-server
+
     - watchtower:
         icon: watchtower
         description: Docker 容器日志查看器
@@ -95,8 +96,6 @@
         description: error-pages
         server: my-docker
         container: error-pages
-
-
 
 #     - cloudflared:
 #         icon: cloudflared
