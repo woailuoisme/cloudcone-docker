@@ -26,10 +26,10 @@ import proxy-app memos.{$SITE_ADDRESS} memos:5230
 import proxy-app xui.{$SITE_ADDRESS} 3xui:2053
 import proxy-app sub.{$SITE_ADDRESS} 3xui:2096
 import proxy-app frp.{$SITE_ADDRESS} frp-server:7500
-import proxy-app n8n.{$SITE_ADDRESS} n8n:5678
 import proxy-app vert.{$SITE_ADDRESS} vert:80
 import proxy-app pdf.{$SITE_ADDRESS} stirling-pdf:8080
 import proxy-app kutt.{$SITE_ADDRESS} kutt:3000
+#import proxy-app n8n.{$SITE_ADDRESS} n8n:5678
 #import proxy-app ollama.{$SITE_ADDRESS} ollama:11434
 #import proxy-app ai.{$SITE_ADDRESS} open-webui:8080
 

@@ -390,22 +390,22 @@ services:
       - frontend
       - backend
 
-  n8n:
-    image: docker.n8n.io/n8nio/n8n
-    container_name: n8n
-    restart: always
-    ports:
-      - "5678:5678"
-    environment:
-      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
-      - N8N_RUNNERS_ENABLED=true
-      - TZ=Asia/Shanghai
-    volumes:
-#      - ${DATA_PATH}n8n:/home/node/.n8n
-      - ${DATA_PATH}n8n-local-files:/files
-    networks:
-      - frontend
-      - backend
+#  n8n:
+#    image: docker.n8n.io/n8nio/n8n
+#    container_name: n8n
+#    restart: always
+#    ports:
+#      - "5678:5678"
+#    environment:
+#      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+#      - N8N_RUNNERS_ENABLED=true
+#      - TZ=Asia/Shanghai
+#    volumes:
+##      - ${DATA_PATH}n8n:/home/node/.n8n
+#      - ${DATA_PATH}n8n-local-files:/files
+#    networks:
+#      - frontend
+#      - backend
 
   frp-server:
     image: snowdreamtech/frps:alpine
