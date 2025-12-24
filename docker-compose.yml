@@ -471,6 +471,22 @@ services:
       - backend
       - frontend
 
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: always
+    ports:
+      - "33300:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+    volumes:
+      - ${DATA_PATH}open-webui:/app/backend/data
+    depends_on:
+      - ollama
+    networks:
+      - backend
+      - frontend
+
   hbbr:
     container_name: hbbr
     image: rustdesk/rustdesk-server:latest
