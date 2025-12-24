@@ -195,40 +195,40 @@ services:
       - backend
       - frontend
 
-  meilisearch:
-    container_name: meilisearch
-    build:
-      context: ./meilisearch
-    restart: always
-    environment:
-      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
-    ports:
-      - "${SEARCH_PORT:-7700}:7700"
-    volumes:
-      - "${DATA_PATH}/meili_data:/meili_data"
-    networks:
-      - frontend
-      - backend
+#  meilisearch:
+#    container_name: meilisearch
+#    build:
+#      context: ./meilisearch
+#    restart: always
+#    environment:
+#      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+#    ports:
+#      - "${SEARCH_PORT:-7700}:7700"
+#    volumes:
+#      - "${DATA_PATH}/meili_data:/meili_data"
+#    networks:
+#      - frontend
+#      - backend
 
-  rabbitmq:
-    build:
-      context: ./rabbitmq
-      dockerfile: Dockerfile
-    container_name: rabbitmq
-    restart: always
-    ports:
-      - "${RABBITMQ_PORT:-5672}:5672"
-      - "${RABBITMQ_DASHBOARD_PORT:-15672}:15672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
-      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST:-app-host}
-    volumes:
-      - ${DATA_PATH}rabbitmq:/var/lib/rabbitmq
-      # - ${CONFIG_PATH}rabbitmq/config:/etc/rabbitmq
-      - ${LOG_PATH}rabbitmq:/var/log/rabbitmq
-    networks:
-      - backend
+#  rabbitmq:
+#    build:
+#      context: ./rabbitmq
+#      dockerfile: Dockerfile
+#    container_name: rabbitmq
+#    restart: always
+#    ports:
+#      - "${RABBITMQ_PORT:-5672}:5672"
+#      - "${RABBITMQ_DASHBOARD_PORT:-15672}:15672"
+#    environment:
+#      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+#      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+#      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST:-app-host}
+#    volumes:
+#      - ${DATA_PATH}rabbitmq:/var/lib/rabbitmq
+#      # - ${CONFIG_PATH}rabbitmq/config:/etc/rabbitmq
+#      - ${LOG_PATH}rabbitmq:/var/log/rabbitmq
+#    networks:
+#      - backend
 
   minio:
     build:
@@ -283,18 +283,17 @@ services:
       - backend
 
   docker-proxy:
-    image: tecnativa/docker-socket-proxy:v0.4.1
+    build:
+      context: ./docker-proxy
     container_name: docker-proxy
-    environment:
-      - CONTAINERS=1 # Allow access to viewing containers
-      - SERVICES=1 # Allow access to viewing services (necessary when using Docker Swarm)
-      - TASKS=1 # Allow access to viewing tasks (necessary when using Docker Swarm)
-      - POST=0 # Disallow any POST operations (effectively read-only)
-    ports:
-      - "62375:2375"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: always
+    privileged: true
+    ports:
+      - "42375:2375"
+    security_opt:
+      - no-new-privileges:true
     networks:
       - backend
       - frontend
