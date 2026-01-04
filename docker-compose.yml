@@ -157,24 +157,29 @@ services:
 #        condition: service_healthy
 
   postgres:
+    container_name: postgres
     build:
       context: postgres
       args:
-        - POSTGRES_VERSION=${POSTGRES_VERSION}
-    container_name: postgres
+        - POSTGRES_VERSION=18.1-alpine3.23
     restart: always
-    volumes:
-      - ${DATA_PATH}postgres:/var/lib/postgresql/data
-      - ${CONFIG_PATH}postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
+#      - "45432:5432"
       - "25432:5432"
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      # PostgreSQL 18 推荐方式：挂载父目录
+      # 数据将存储在: data/postgres18/18/docker/
+      # 这是官方推荐的方式，便于未来版本升级
+      - ${DATA_PATH}postgres18:/var/lib/postgresql
+      - ${CONFIG_PATH}postgres18/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     networks:
       - backend
       - frontend
+
   redis:
     container_name: redis
     build:
