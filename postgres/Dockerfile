@@ -3,7 +3,7 @@ FROM postgres:${POSTGRES_VERSION}
 LABEL maintainer="seaside <531773730@qq.com>"
 
 ARG TIMEZONE=Asia/Shanghai
-ARG CHANGE_SOURCE=true
+ARG CHANGE_SOURCE=false
 
 RUN if [ "$CHANGE_SOURCE" = "true" ]; then \
     sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories; \

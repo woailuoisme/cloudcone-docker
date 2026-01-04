@@ -2,7 +2,7 @@ ARG REDIS_VERSION=8.4-alpine
 FROM redis:${REDIS_VERSION}
 LABEL maintainer="seaside <531773730@qq.com>"
 
-ARG CHANGE_SOURCE=true
+ARG CHANGE_SOURCE=false
 ENV TIMEZONE=Asia/Shanghai
 
 RUN if [ "$CHANGE_SOURCE" = "true" ]; then \
