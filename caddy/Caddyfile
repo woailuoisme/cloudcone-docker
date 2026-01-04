@@ -17,7 +17,7 @@ import templates/* {
 #import proxy-app auth.{$SITE_ADDRESS} authelia:9091
 import proxy-app mo.{$SITE_ADDRESS} minio:9001
 import proxy-app mos.{$SITE_ADDRESS} minio:9000
-import proxy-app mq.{$SITE_ADDRESS} rabbitmq:15672
+#import proxy-app mq.{$SITE_ADDRESS} rabbitmq:15672
 import proxy-app msg.{$SITE_ADDRESS} gotify:80
 
 import proxy-app uptime.{$SITE_ADDRESS} uptime-kuma:3001
