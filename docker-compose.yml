@@ -33,7 +33,8 @@ services:
     volumes:
       - ${APP_CODE_PATH}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       - ${CONFIG_PATH}caddy:/etc/caddy
-      - ${DATA_PATH}caddy:/data
+      - ${DATA_PATH}caddy:/data/caddy
+      # mv data/caddy/caddy/* data/caddy/ && rmdir data/caddy/caddy
     restart: always
     depends_on:
       authelia:
@@ -495,6 +496,21 @@ services:
 #    networks:
 #      - backend
 #      - frontend
+
+  yopass:
+    image: jhaals/yopass:12.5.0
+    container_name: yopass
+    ports:
+      - "1337:1337"
+    command:
+      - "--database=redis"
+      - "--redis=redis://:${REDIS_PASSWORD}@redis:6379"
+    restart: always
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - redis
 
   hbbr:
     container_name: hbbr
