@@ -19,10 +19,10 @@ import proxy-app mos.{$SITE_ADDRESS} minio:9000
 #import proxy-app mq.{$SITE_ADDRESS} rabbitmq:15672
 import proxy-app msg.{$SITE_ADDRESS} gotify:80
 
+#import proxy-app xui.{$SITE_ADDRESS} 3xui:2053
 import proxy-app uptime.{$SITE_ADDRESS} uptime-kuma:3001
 import proxy-app draw.{$SITE_ADDRESS} excalidraw:80
 import proxy-app memos.{$SITE_ADDRESS} memos:5230
-#import proxy-app xui.{$SITE_ADDRESS} 3xui:2053
 import proxy-app sub.{$SITE_ADDRESS} 3xui:2096
 import proxy-app frp.{$SITE_ADDRESS} frp-server:7500
 import proxy-app vert.{$SITE_ADDRESS} vert:80
